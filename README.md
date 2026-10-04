@@ -1,8 +1,6 @@
 # Stilbomber 2
 <img width="806" height="594" alt="image" src="https://github.com/user-attachments/assets/50f32a6d-39e1-43f3-9e41-0b4b2492ffd9" />
 
-<img width="2101" height="1579" alt="image" src="https://github.com/user-attachments/assets/5829b192-05c1-44b7-8d30-6dc9015effb7" />
-
 
 ## Author
 
@@ -59,3 +57,7 @@ The game opens in a borderless window at desktop size. Press `Ctrl+Tab` to relea
 - `Play-Stilbomber-Windowed.cmd` — recommended launcher
 
 The preparation script verifies the SHA-256 hashes of the game and compatibility files before using them, and keeps the original game folder unchanged.
+
+## Screenshots
+
+<img width="2101" height="1579" alt="image" src="https://github.com/user-attachments/assets/5829b192-05c1-44b7-8d30-6dc9015effb7" />
