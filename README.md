@@ -1,4 +1,5 @@
 # Stilbomber 2
+<img width="806" height="594" alt="image" src="https://github.com/user-attachments/assets/50f32a6d-39e1-43f3-9e41-0b4b2492ffd9" />
 
 ## Author
 
