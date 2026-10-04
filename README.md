@@ -58,9 +58,10 @@ The game opens in a borderless window at desktop size. Press `Ctrl+Tab` to relea
 
 The preparation script verifies the SHA-256 hashes of the game and compatibility files before using them, and keeps the original game folder unchanged.
 
-## Screenshots
+## Screenshots and videos
 
 <img width="2101" height="1579" alt="image" src="https://github.com/user-attachments/assets/5829b192-05c1-44b7-8d30-6dc9015effb7" />
 
 https://github.com/user-attachments/assets/6afd39f6-5c1d-468b-9c86-0734295c5ecf
 
+Full game video: https://youtu.be/JW_2om2ZOmU
