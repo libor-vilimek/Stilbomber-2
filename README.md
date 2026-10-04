@@ -1,7 +1,7 @@
 # Stilbomber 2
 <img width="806" height="594" alt="image" src="https://github.com/user-attachments/assets/50f32a6d-39e1-43f3-9e41-0b4b2492ffd9" />
 
-<img width="2120" height="1577" alt="image" src="https://github.com/user-attachments/assets/341b8f03-9ed3-4802-95d1-feb8cc0c8613" />
+<img width="2101" height="1579" alt="image" src="https://github.com/user-attachments/assets/5829b192-05c1-44b7-8d30-6dc9015effb7" />
 
 
 ## Author
