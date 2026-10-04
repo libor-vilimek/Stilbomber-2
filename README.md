@@ -61,3 +61,6 @@ The preparation script verifies the SHA-256 hashes of the game and compatibility
 ## Screenshots
 
 <img width="2101" height="1579" alt="image" src="https://github.com/user-attachments/assets/5829b192-05c1-44b7-8d30-6dc9015effb7" />
+
+https://github.com/user-attachments/assets/6afd39f6-5c1d-468b-9c86-0734295c5ecf
+
