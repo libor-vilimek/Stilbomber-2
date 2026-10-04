@@ -9,7 +9,7 @@ It was released at 2004 for free.
 
 ## Info
 
-Stilbomber 2 is a space shooter that combines the fast action of classic shooters such as *Raptor* and *Tyrian* with a surprising number of RPG elements inspired by *Diablo 2*.
+Stilbomber 2 is a space shooter that combines the fast action of classic shooters such as *Raptor* and *Tyrian* with a surprising number of RPG elements similar what you can see in i.e. *Diablo 2*.
 
 You receive random items to equip, choose from many ways to improve your ship, and spend a lot of time grinding for better equipment. The result is a classic shooter with a substantial progression system alongside the action.
 
