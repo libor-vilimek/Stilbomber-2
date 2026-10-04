@@ -1,6 +1,9 @@
 # Stilbomber 2
 <img width="806" height="594" alt="image" src="https://github.com/user-attachments/assets/50f32a6d-39e1-43f3-9e41-0b4b2492ffd9" />
 
+<img width="2120" height="1577" alt="image" src="https://github.com/user-attachments/assets/341b8f03-9ed3-4802-95d1-feb8cc0c8613" />
+
+
 ## Author
 
 This game was made by Tomaxko (Tomáš Zachar)
