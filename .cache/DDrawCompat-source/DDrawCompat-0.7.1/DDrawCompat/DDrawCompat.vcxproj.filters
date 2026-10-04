@@ -1,0 +1,1304 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\Gdi">
+      <UniqueIdentifier>{ed9adcfd-bf6f-4b69-b425-7a9252072e4d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Gdi">
+      <UniqueIdentifier>{a8e1437a-7bec-4492-830a-9a0d844aa06b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\DDraw">
+      <UniqueIdentifier>{370ccd34-b783-421b-87fc-84ce703e851d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\DDraw">
+      <UniqueIdentifier>{bcc85014-8548-43ff-902f-16bcb6a0e96b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Direct3d">
+      <UniqueIdentifier>{1e5628f5-39bf-4080-ae94-938081671cf8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Direct3d">
+      <UniqueIdentifier>{08a23b36-cd96-4214-985b-0473ecf6ecab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\D3dDdi">
+      <UniqueIdentifier>{10719dd2-f68b-4f6c-82b1-3e3bd8def099}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\D3dDdi">
+      <UniqueIdentifier>{9c81f8c4-c564-49f2-b66f-c051d332d6a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Common">
+      <UniqueIdentifier>{de451374-9c40-4244-8b26-b7d56f260f43}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Common">
+      <UniqueIdentifier>{012be7da-29a5-477e-90e8-8847222d87ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\D3dDdi\Visitors">
+      <UniqueIdentifier>{9c09a432-31fd-442b-8b3f-18291e6ed327}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\DDraw\Visitors">
+      <UniqueIdentifier>{e2fa8c38-27b4-4156-b77e-3f515addc312}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Direct3d\Visitors">
+      <UniqueIdentifier>{be1190e0-8e87-4751-86d0-ff327c46637f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Win32">
+      <UniqueIdentifier>{81a1faf8-aa27-491f-9f99-29874569ed2c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Win32">
+      <UniqueIdentifier>{ad819a3d-f694-4a6f-8c56-ae43e95d1c2b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Config">
+      <UniqueIdentifier>{5c6203cd-b703-4af0-a283-fa9eb72c2d07}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Dll">
+      <UniqueIdentifier>{8a50d66d-8372-4dde-bbd1-302a52d7a385}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Dll">
+      <UniqueIdentifier>{41544d1c-712a-4bef-8913-a40155a33ba0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\DDraw\Surfaces">
+      <UniqueIdentifier>{0550f0bd-b66f-4c6a-9072-e83bdfc52e4d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\DDraw\Surfaces">
+      <UniqueIdentifier>{c60f8247-4d67-4dcf-9f97-f1c5b1acc469}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\D3dDdi\Log">
+      <UniqueIdentifier>{c682b098-a0f4-405e-b39e-1b1bc484cdf9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\D3dDdi\Log">
+      <UniqueIdentifier>{c4d03748-2333-40af-90c7-ae875b07434f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Config">
+      <UniqueIdentifier>{9d313de7-b8ca-49d0-84d2-217f2818d9d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Config\Settings">
+      <UniqueIdentifier>{bdde0d15-27ab-43a7-9c0a-294df6a52bad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Config\Settings">
+      <UniqueIdentifier>{0b4eec6c-ece5-4417-913c-8829b34ec08c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{00e06bd4-3f10-46dc-af0f-99834dfac835}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Input">
+      <UniqueIdentifier>{32765547-b1b7-48d3-bf58-d09cf388de91}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Input">
+      <UniqueIdentifier>{38167700-fb70-4ee8-b149-824a9fde51eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Overlay">
+      <UniqueIdentifier>{29dba6e7-0bca-44e2-9776-2ba478e088bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Overlay">
+      <UniqueIdentifier>{e0a8a3ac-59fd-4cb0-ae81-5ae2c56fbfac}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Gdi\Gdi.h">
+      <Filter>Header Files\Gdi</Filter>
+    </ClInclude>
+    <ClInclude Include="Gdi\Caret.h">
+      <Filter>Header Files\Gdi</Filter>
+    </ClInclude>
+    <ClInclude Include="Gdi\Dc.h">
+      <Filter>Header Files\Gdi</Filter>
+    </ClInclude>
+    <ClInclude Include="Gdi\DcFunctions.h">
+      <Filter>Header Files\Gdi</Filter>
+    </ClInclude>
+    <ClInclude Include="Gdi\ScrollBar.h">
+      <Filter>Header Files\Gdi</Filter>
+    </ClInclude>
+    <ClInclude Include="Gdi\ScrollFunctions.h">
+      <Filter>Header Files\Gdi</Filter>
+    </ClInclude>
+    <ClInclude Include="Gdi\TitleBar.h">
+      <Filter>Header Files\Gdi</Filter>
+    </ClInclude>
+    <ClInclude Include="Gdi\WinProc.h">
+      <Filter>Header Files\Gdi</Filter>
+    </ClInclude>
+    <ClInclude Include="DDraw\IReleaseNotifier.h">
+      <Filter>Header Files\DDraw</Filter>
+    </ClInclude>
+    <ClInclude Include="DDraw\RealPrimarySurface.h">
+      <Filter>Header Files\DDraw</Filter>
+    </ClInclude>
+    <ClInclude Include="DDraw\Hooks.h">
+      <Filter>Header Files\DDraw</Filter>
+    </ClInclude>
+    <ClInclude Include="DDraw\ScopedThreadLock.h">
+      <Filter>Header Files\DDraw</Filter>
+    </ClInclude>
+    <ClInclude Include="DDraw\Types.h">
+      <Filter>Header Files\DDraw</Filter>
+    </ClInclude>
+    <ClInclude Include="DDraw\DirectDraw.h">
+      <Filter>Header Files\DDraw</Filter>
+    </ClInclude>
+    <ClInclude Include="DDraw\DirectDrawPalette.h">
+      <Filter>Header Files\DDraw</Filter>
+    </ClInclude>
+    <ClInclude Include="DDraw\DirectDrawSurface.h">
+      <Filter>Header Files\DDraw</Filter>
+    </ClInclude>
+    <ClInclude Include="Direct3d\Direct3d.h">
+      <Filter>Header Files\Direct3d</Filter>
+    </ClInclude>
+    <ClInclude Include="Direct3d\Direct3dDevice.h">
+      <Filter>Header Files\Direct3d</Filter>
+    </ClInclude>
+    <ClInclude Include="Direct3d\Hooks.h">
+      <Filter>Header Files\Direct3d</Filter>
+    </ClInclude>
+    <ClInclude Include="D3dDdi\AdapterCallbacks.h">
+      <Filter>Header Files\D3dDdi</Filter>
+    </ClInclude>
+    <ClInclude Include="D3dDdi\AdapterFuncs.h">
+      <Filter>Header Files\D3dDdi</Filter>
+    </ClInclude>
+    <ClInclude Include="D3dDdi\DeviceCallbacks.h">
+      <Filter>Header Files\D3dDdi</Filter>
+    </ClInclude>
+    <ClInclude Include="D3dDdi\DeviceFuncs.h">
+      <Filter>Header Files\D3dDdi</Filter>
+    </ClInclude>
+    <ClInclude Include="D3dDdi\Hooks.h">
+      <Filter>Header Files\D3dDdi</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\CompatPtr.h">
+      <Filter>Header Files\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\CompatQueryInterface.h">
+      <Filter>Header Files\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\CompatRef.h">
+      <Filter>Header Files\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\CompatVtable.h">
+      <Filter>Header Files\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\CompatWeakPtr.h">
+      <Filter>Header Files\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\Hook.h">
+      <Filter>Header Files\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\ScopedCriticalSection.h">
+      <Filter>Header Files\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\Time.h">
+      <Filter>Header Files\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\Log.h">
+      <Filter>Header Files\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\VtableVisitor.h">
+      <Filter>Header Files\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="D3dDdi\Visitors\AdapterCallbacksVisitor.h">
+      <Filter>Header Files\D3dDdi\Visitors</Filter>
+    </ClInclude>
+    <ClInclude Include="D3dDdi\Visitors\AdapterFuncsVisitor.h">
+      <Filter>Header Files\D3dDdi\Visitors</Filter>
+    </ClInclude>
+    <ClInclude Include="D3dDdi\Visitors\DeviceCallbacksVisitor.h">
+      <Filter>Header Files\D3dDdi\Visitors</Filter>
+    </ClInclude>
+    <ClInclude Include="D3dDdi\Visitors\DeviceFuncsVisitor.h">
+      <Filter>Header Files\D3dDdi\Visitors</Filter>
+    </ClInclude>
+    <ClInclude Include="DDraw\Visitors\DirectDrawPaletteVtblVisitor.h">
+      <Filter>Header Files\DDraw\Visitors</Filter>
+    </ClInclude>
+    <ClInclude Include="DDraw\Visitors\DirectDrawSurfaceVtblVisitor.h">
+      <Filter>Header Files\DDraw\Visitors</Filter>
+    </ClInclude>
+    <ClInclude Include="DDraw\Visitors\DirectDrawVtblVisitor.h">
+      <Filter>Header Files\DDraw\Visitors</Filter>
+    </ClInclude>
+    <ClInclude Include="Direct3d\Visitors\Direct3dDeviceVtblVisitor.h">
+      <Filter>Header Files\Direct3d\Visitors</Filter>
+    </ClInclude>
+    <ClInclude Include="Direct3d\Visitors\Direct3dVtblVisitor.h">
+      <Filter>Header Files\Direct3d\Visitors</Filter>
+    </ClInclude>
+    <ClInclude Include="Win32\Registry.h">
+      <Filter>Header Files\Win32</Filter>
+    </ClInclude>
+    <ClInclude Include="DDraw\Surfaces\Surface.h">
+      <Filter>Header Files\DDraw\Surfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="DDraw\Surfaces\SurfaceImpl.h">
+      <Filter>Header Files\DDraw\Surfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="DDraw\Surfaces\PrimarySurface.h">
+      <Filter>Header Files\DDraw\Surfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="DDraw\Surfaces\PrimarySurfaceImpl.h">
+      <Filter>Header Files\DDraw\Surfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Direct3d\Visitors\Direct3dViewportVtblVisitor.h">
+      <Filter>Header Files\Direct3d\Visitors</Filter>
+    </ClInclude>
+    <ClInclude Include="Direct3d\Direct3dViewport.h">
+      <Filter>Header Files\Direct3d</Filter>
+    </ClInclude>
+    <ClInclude Include="Direct3d\Visitors\Direct3dTextureVtblVisitor.h">
+      <Filter>Header Files\Direct3d\Visitors</Filter>
+    </ClInclude>
+    <ClInclude Include="Direct3d\Direct3dTexture.h">
+      <Filter>Header Files\Direct3d</Filter>
+    </ClInclude>
+    <ClInclude Include="Direct3d\Visitors\Direct3dVertexBufferVtblVisitor.h">
+      <Filter>Header Files\Direct3d\Visitors</Filter>
+    </ClInclude>
+    <ClInclude Include="Direct3d\Direct3dVertexBuffer.h">
+      <Filter>Header Files\Direct3d</Filter>
+    </ClInclude>
+    <ClInclude Include="D3dDdi\Log\DeviceFuncsLog.h">
+      <Filter>Header Files\D3dDdi\Log</Filter>
+    </ClInclude>
+    <ClInclude Include="D3dDdi\Log\DeviceCallbacksLog.h">
+      <Filter>Header Files\D3dDdi\Log</Filter>
+    </ClInclude>
+    <ClInclude Include="D3dDdi\Log\AdapterFuncsLog.h">
+      <Filter>Header Files\D3dDdi\Log</Filter>
+    </ClInclude>
+    <ClInclude Include="D3dDdi\KernelModeThunks.h">
+      <Filter>Header Files\D3dDdi</Filter>
+    </ClInclude>
+    <ClInclude Include="D3dDdi\Log\KernelModeThunksLog.h">
+      <Filter>Header Files\D3dDdi\Log</Filter>
+    </ClInclude>
+    <ClInclude Include="DDraw\Visitors\DirectDrawClipperVtblVisitor.h">
+      <Filter>Header Files\DDraw\Visitors</Filter>
+    </ClInclude>
+    <ClInclude Include="DDraw\DirectDrawClipper.h">
+      <Filter>Header Files\DDraw</Filter>
+    </ClInclude>
+    <ClInclude Include="Win32\DisplayMode.h">
+      <Filter>Header Files\Win32</Filter>
+    </ClInclude>
+    <ClInclude Include="DDraw\Visitors\DirectDrawGammaControlVtblVisitor.h">
+      <Filter>Header Files\DDraw\Visitors</Filter>
+    </ClInclude>
+    <ClInclude Include="DDraw\DirectDrawGammaControl.h">
+      <Filter>Header Files\DDraw</Filter>
+    </ClInclude>
+    <ClInclude Include="D3dDdi\Device.h">
+      <Filter>Header Files\D3dDdi</Filter>
+    </ClInclude>
+    <ClInclude Include="Gdi\Window.h">
+      <Filter>Header Files\Gdi</Filter>
+    </ClInclude>
+    <ClInclude Include="Gdi\Region.h">
+      <Filter>Header Files\Gdi</Filter>
+    </ClInclude>
+    <ClInclude Include="Gdi\VirtualScreen.h">
+      <Filter>Header Files\Gdi</Filter>
+    </ClInclude>
+    <ClInclude Include="Gdi\Palette.h">
+      <Filter>Header Files\Gdi</Filter>
+    </ClInclude>
+    <ClInclude Include="D3dDdi\ScopedCriticalSection.h">
+      <Filter>Header Files\D3dDdi</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\VtableHookVisitor.h">
+      <Filter>Header Files\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="D3dDdi\Adapter.h">
+      <Filter>Header Files\D3dDdi</Filter>
+    </ClInclude>
+    <ClInclude Include="D3dDdi\Resource.h">
+      <Filter>Header Files\D3dDdi</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\HResultException.h">
+      <Filter>Header Files\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="DDraw\Blitter.h">
+      <Filter>Header Files\DDraw</Filter>
+    </ClInclude>
+    <ClInclude Include="D3dDdi\FormatInfo.h">
+      <Filter>Header Files\D3dDdi</Filter>
+    </ClInclude>
+    <ClInclude Include="Direct3d\Log.h">
+      <Filter>Header Files\Direct3d</Filter>
+    </ClInclude>
+    <ClInclude Include="Win32\Log.h">
+      <Filter>Header Files\Win32</Filter>
+    </ClInclude>
+    <ClInclude Include="DDraw\Log.h">
+      <Filter>Header Files\DDraw</Filter>
+    </ClInclude>
+    <ClInclude Include="Direct3d\Direct3dMaterial.h">
+      <Filter>Header Files\Direct3d</Filter>
+    </ClInclude>
+    <ClInclude Include="Direct3d\Visitors\Direct3dMaterialVtblVisitor.h">
+      <Filter>Header Files\Direct3d\Visitors</Filter>
+    </ClInclude>
+    <ClInclude Include="Direct3d\Visitors\Direct3dLightVtblVisitor.h">
+      <Filter>Header Files\Direct3d\Visitors</Filter>
+    </ClInclude>
+    <ClInclude Include="Direct3d\Direct3dLight.h">
+      <Filter>Header Files\Direct3d</Filter>
+    </ClInclude>
+    <ClInclude Include="Direct3d\Visitors\Direct3dExecuteBufferVtblVisitor.h">
+      <Filter>Header Files\Direct3d\Visitors</Filter>
+    </ClInclude>
+    <ClInclude Include="Direct3d\Direct3dExecuteBuffer.h">
+      <Filter>Header Files\Direct3d</Filter>
+    </ClInclude>
+    <ClInclude Include="Gdi\Font.h">
+      <Filter>Header Files\Gdi</Filter>
+    </ClInclude>
+    <ClInclude Include="Dll\Dll.h">
+      <Filter>Header Files\Dll</Filter>
+    </ClInclude>
+    <ClInclude Include="D3dDdi\Log\CommonLog.h">
+      <Filter>Header Files\D3dDdi\Log</Filter>
+    </ClInclude>
+    <ClInclude Include="D3dDdi\DrawPrimitive.h">
+      <Filter>Header Files\D3dDdi</Filter>
+    </ClInclude>
+    <ClInclude Include="D3dDdi\DeviceState.h">
+      <Filter>Header Files\D3dDdi</Filter>
+    </ClInclude>
+    <ClInclude Include="Win32\MemoryManagement.h">
+      <Filter>Header Files\Win32</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\ScopedSrwLock.h">
+      <Filter>Header Files\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Gdi\User32WndProcs.h">
+      <Filter>Header Files\Gdi</Filter>
+    </ClInclude>
+    <ClInclude Include="Gdi\PresentationWindow.h">
+      <Filter>Header Files\Gdi</Filter>
+    </ClInclude>
+    <ClInclude Include="Gdi\CompatDc.h">
+      <Filter>Header Files\Gdi</Filter>
+    </ClInclude>
+    <ClInclude Include="Gdi\Icon.h">
+      <Filter>Header Files\Gdi</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\VtableSizeVisitor.h">
+      <Filter>Header Files\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\Path.h">
+      <Filter>Header Files\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\Parser.h">
+      <Filter>Header Files\Config</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\Setting.h">
+      <Filter>Header Files\Config</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\EnumSetting.h">
+      <Filter>Header Files\Config</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\Settings\ThreadPriorityBoost.h">
+      <Filter>Header Files\Config\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="Win32\Thread.h">
+      <Filter>Header Files\Win32</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\ListSetting.h">
+      <Filter>Header Files\Config</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\Settings\CpuAffinity.h">
+      <Filter>Header Files\Config\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="D3dDdi\ShaderBlitter.h">
+      <Filter>Header Files\D3dDdi</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\Comparison.h">
+      <Filter>Header Files\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\Settings\DisplayResolution.h">
+      <Filter>Header Files\Config\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\MappedSetting.h">
+      <Filter>Header Files\Config</Filter>
+    </ClInclude>
+    <ClInclude Include="D3dDdi\SurfaceRepository.h">
+      <Filter>Header Files\D3dDdi</Filter>
+    </ClInclude>
+    <ClInclude Include="Gdi\Cursor.h">
+      <Filter>Header Files\Gdi</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\Settings\DesktopColorDepth.h">
+      <Filter>Header Files\Config\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\Settings\SupportedResolutions.h">
+      <Filter>Header Files\Config\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\Settings\DisplayFilter.h">
+      <Filter>Header Files\Config\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\Settings\AlternatePixelCenter.h">
+      <Filter>Header Files\Config\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\Settings\TextureFilter.h">
+      <Filter>Header Files\Config\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\Settings\Antialiasing.h">
+      <Filter>Header Files\Config\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="Input\Input.h">
+      <Filter>Header Files\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Overlay\Window.h">
+      <Filter>Header Files\Overlay</Filter>
+    </ClInclude>
+    <ClInclude Include="Overlay\Control.h">
+      <Filter>Header Files\Overlay</Filter>
+    </ClInclude>
+    <ClInclude Include="Overlay\ConfigWindow.h">
+      <Filter>Header Files\Overlay</Filter>
+    </ClInclude>
+    <ClInclude Include="Overlay\SettingControl.h">
+      <Filter>Header Files\Overlay</Filter>
+    </ClInclude>
+    <ClInclude Include="Overlay\LabelControl.h">
+      <Filter>Header Files\Overlay</Filter>
+    </ClInclude>
+    <ClInclude Include="Overlay\ComboBoxControl.h">
+      <Filter>Header Files\Overlay</Filter>
+    </ClInclude>
+    <ClInclude Include="Overlay\ScrollBarControl.h">
+      <Filter>Header Files\Overlay</Filter>
+    </ClInclude>
+    <ClInclude Include="Overlay\ComboBoxDropDown.h">
+      <Filter>Header Files\Overlay</Filter>
+    </ClInclude>
+    <ClInclude Include="D3dDdi\Log\AdapterCallbacksLog.h">
+      <Filter>Header Files\D3dDdi\Log</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\BitSet.h">
+      <Filter>Header Files\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="D3dDdi\ResourceDeleter.h">
+      <Filter>Header Files\D3dDdi</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\Settings\RenderColorDepth.h">
+      <Filter>Header Files\Config\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="DDraw\Comparison.h">
+      <Filter>Header Files\DDraw</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\Settings\ResolutionScale.h">
+      <Filter>Header Files\Config\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\Rect.h">
+      <Filter>Header Files\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Gdi\GuiThread.h">
+      <Filter>Header Files\Gdi</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\Settings\DisplayRefreshRate.h">
+      <Filter>Header Files\Config\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\HotKeySetting.h">
+      <Filter>Header Files\Config</Filter>
+    </ClInclude>
+    <ClInclude Include="Input\HotKey.h">
+      <Filter>Header Files\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\Settings\ConfigHotKey.h">
+      <Filter>Header Files\Config\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\Settings\SpriteTexCoord.h">
+      <Filter>Header Files\Config\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\Settings\SpriteFilter.h">
+      <Filter>Header Files\Config\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\Settings\SpriteDetection.h">
+      <Filter>Header Files\Config\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\Settings\ForceD3D9On12.h">
+      <Filter>Header Files\Config\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\Settings\FullscreenMode.h">
+      <Filter>Header Files\Config\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\Settings\VSync.h">
+      <Filter>Header Files\Config\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="DDraw\Surfaces\TagSurface.h">
+      <Filter>Header Files\DDraw\Surfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\Settings\AltTabFix.h">
+      <Filter>Header Files\Config\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\Settings\WinVersionLie.h">
+      <Filter>Header Files\Config\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="Win32\Version.h">
+      <Filter>Header Files\Win32</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\Settings\BltFilter.h">
+      <Filter>Header Files\Config\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\Settings\LogLevel.h">
+      <Filter>Header Files\Config\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="Overlay\ButtonControl.h">
+      <Filter>Header Files\Overlay</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\Settings\DpiAwareness.h">
+      <Filter>Header Files\Config\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\Settings\FpsLimiter.h">
+      <Filter>Header Files\Config\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\ScopedThreadPriority.h">
+      <Filter>Header Files\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\Settings\FontAntialiasing.h">
+      <Filter>Header Files\Config\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="Win32\Winmm.h">
+      <Filter>Header Files\Win32</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\Settings\PalettizedTextures.h">
+      <Filter>Header Files\Config\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\Settings\SoftwareDevice.h">
+      <Filter>Header Files\Config\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\Settings\ResolutionScaleFilter.h">
+      <Filter>Header Files\Config\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="Overlay\StatsWindow.h">
+      <Filter>Header Files\Overlay</Filter>
+    </ClInclude>
+    <ClInclude Include="Overlay\StatsControl.h">
+      <Filter>Header Files\Overlay</Filter>
+    </ClInclude>
+    <ClInclude Include="Overlay\StatsQueue.h">
+      <Filter>Header Files\Overlay</Filter>
+    </ClInclude>
+    <ClInclude Include="Overlay\StatsTimer.h">
+      <Filter>Header Files\Overlay</Filter>
+    </ClInclude>
+    <ClInclude Include="Overlay\StatsEventRate.h">
+      <Filter>Header Files\Overlay</Filter>
+    </ClInclude>
+    <ClInclude Include="Overlay\StatsEventTime.h">
+      <Filter>Header Files\Overlay</Filter>
+    </ClInclude>
+    <ClInclude Include="Overlay\StatsEventCount.h">
+      <Filter>Header Files\Overlay</Filter>
+    </ClInclude>
+    <ClInclude Include="Overlay\StatsEventGroup.h">
+      <Filter>Header Files\Overlay</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\Settings\StatsHotKey.h">
+      <Filter>Header Files\Config\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\Settings\TerminateHotKey.h">
+      <Filter>Header Files\Config\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\Settings\CpuAffinityRotation.h">
+      <Filter>Header Files\Config\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="DDraw\LogUsedResourceFormat.h">
+      <Filter>Header Files\DDraw</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\Settings\SupportedTextureFormats.h">
+      <Filter>Header Files\Config\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\FormatListSetting.h">
+      <Filter>Header Files\Config</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\Settings\SupportedDepthFormats.h">
+      <Filter>Header Files\Config\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\Settings\VertexBufferMemoryType.h">
+      <Filter>Header Files\Config\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\Settings\DepthFormat.h">
+      <Filter>Header Files\Config\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\Settings\DisplayAspectRatio.h">
+      <Filter>Header Files\Config\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\Vector.h">
+      <Filter>Header Files\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\Settings\DesktopResolution.h">
+      <Filter>Header Files\Config\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="D3dDdi\ShaderAssembler.h">
+      <Filter>Header Files\D3dDdi</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\Settings\ColorKeyMethod.h">
+      <Filter>Header Files\Config\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\Settings\StatsColumns.h">
+      <Filter>Header Files\Config\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\EnumListSetting.h">
+      <Filter>Header Files\Config</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\BoolSetting.h">
+      <Filter>Header Files\Config</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\Settings\StatsRows.h">
+      <Filter>Header Files\Config\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\IntSetting.h">
+      <Filter>Header Files\Config</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\Settings\StatsUpdateRate.h">
+      <Filter>Header Files\Config\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\Settings\StatsAggregateTime.h">
+      <Filter>Header Files\Config\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\Settings\StatsPosX.h">
+      <Filter>Header Files\Config\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\Settings\StatsPosY.h">
+      <Filter>Header Files\Config\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\Settings\ConfigTransparency.h">
+      <Filter>Header Files\Config\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\Settings\StatsTransparency.h">
+      <Filter>Header Files\Config\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\Settings\ConfigRows.h">
+      <Filter>Header Files\Config\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\Settings\CrashDump.h">
+      <Filter>Header Files\Config\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="Win32\DpiAwareness.h">
+      <Filter>Header Files\Win32</Filter>
+    </ClInclude>
+    <ClInclude Include="Overlay\Steam.h">
+      <Filter>Header Files\Overlay</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\Settings\SurfacePatches.h">
+      <Filter>Header Files\Config\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\Disasm.h">
+      <Filter>Header Files\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\Settings\VertexFixup.h">
+      <Filter>Header Files\Config\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\Settings\ViewportEdgeFix.h">
+      <Filter>Header Files\Config\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\Settings\MouseSensitivity.h">
+      <Filter>Header Files\Config\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\Settings\MousePollingRate.h">
+      <Filter>Header Files\Config\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\Settings\CapsPatches.h">
+      <Filter>Header Files\Config\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="Direct3d\Visitors\CapsVisitor.h">
+      <Filter>Header Files\Direct3d\Visitors</Filter>
+    </ClInclude>
+    <ClInclude Include="DDraw\Visitors\CapsVisitor.h">
+      <Filter>Header Files\DDraw\Visitors</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\Settings\SupportedRefreshRates.h">
+      <Filter>Header Files\Config\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\Settings\SpriteAltPixelCenter.h">
+      <Filter>Header Files\Config\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\Settings\EnableDDrawCompat.h">
+      <Filter>Header Files\Config\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\Settings\CompatFixes.h">
+      <Filter>Header Files\Config\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\Settings\PresentDelay.h">
+      <Filter>Header Files\Config\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\Settings\SupportedDevices.h">
+      <Filter>Header Files\Config\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="D3dDdi\ShaderCompiler.h">
+      <Filter>Header Files\D3dDdi</Filter>
+    </ClInclude>
+    <ClInclude Include="D3dDdi\MetaShader.h">
+      <Filter>Header Files\D3dDdi</Filter>
+    </ClInclude>
+    <ClInclude Include="Overlay\ShaderStatusControl.h">
+      <Filter>Header Files\Overlay</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\AtomicSetting.h">
+      <Filter>Header Files\Config</Filter>
+    </ClInclude>
+    <ClInclude Include="Overlay\ShaderSettingControl.h">
+      <Filter>Header Files\Overlay</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\Settings\GdiInterops.h">
+      <Filter>Header Files\Config\Settings</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Gdi\Gdi.cpp">
+      <Filter>Source Files\Gdi</Filter>
+    </ClCompile>
+    <ClCompile Include="Gdi\Caret.cpp">
+      <Filter>Source Files\Gdi</Filter>
+    </ClCompile>
+    <ClCompile Include="Gdi\Dc.cpp">
+      <Filter>Source Files\Gdi</Filter>
+    </ClCompile>
+    <ClCompile Include="Gdi\DcFunctions.cpp">
+      <Filter>Source Files\Gdi</Filter>
+    </ClCompile>
+    <ClCompile Include="Gdi\ScrollBar.cpp">
+      <Filter>Source Files\Gdi</Filter>
+    </ClCompile>
+    <ClCompile Include="Gdi\ScrollFunctions.cpp">
+      <Filter>Source Files\Gdi</Filter>
+    </ClCompile>
+    <ClCompile Include="Gdi\TitleBar.cpp">
+      <Filter>Source Files\Gdi</Filter>
+    </ClCompile>
+    <ClCompile Include="Gdi\WinProc.cpp">
+      <Filter>Source Files\Gdi</Filter>
+    </ClCompile>
+    <ClCompile Include="DDraw\IReleaseNotifier.cpp">
+      <Filter>Source Files\DDraw</Filter>
+    </ClCompile>
+    <ClCompile Include="DDraw\RealPrimarySurface.cpp">
+      <Filter>Source Files\DDraw</Filter>
+    </ClCompile>
+    <ClCompile Include="DDraw\Hooks.cpp">
+      <Filter>Source Files\DDraw</Filter>
+    </ClCompile>
+    <ClCompile Include="DDraw\DirectDraw.cpp">
+      <Filter>Source Files\DDraw</Filter>
+    </ClCompile>
+    <ClCompile Include="DDraw\DirectDrawPalette.cpp">
+      <Filter>Source Files\DDraw</Filter>
+    </ClCompile>
+    <ClCompile Include="DDraw\DirectDrawSurface.cpp">
+      <Filter>Source Files\DDraw</Filter>
+    </ClCompile>
+    <ClCompile Include="Direct3d\Direct3d.cpp">
+      <Filter>Source Files\Direct3d</Filter>
+    </ClCompile>
+    <ClCompile Include="Direct3d\Direct3dDevice.cpp">
+      <Filter>Source Files\Direct3d</Filter>
+    </ClCompile>
+    <ClCompile Include="Direct3d\Hooks.cpp">
+      <Filter>Source Files\Direct3d</Filter>
+    </ClCompile>
+    <ClCompile Include="D3dDdi\AdapterCallbacks.cpp">
+      <Filter>Source Files\D3dDdi</Filter>
+    </ClCompile>
+    <ClCompile Include="D3dDdi\AdapterFuncs.cpp">
+      <Filter>Source Files\D3dDdi</Filter>
+    </ClCompile>
+    <ClCompile Include="D3dDdi\DeviceCallbacks.cpp">
+      <Filter>Source Files\D3dDdi</Filter>
+    </ClCompile>
+    <ClCompile Include="D3dDdi\DeviceFuncs.cpp">
+      <Filter>Source Files\D3dDdi</Filter>
+    </ClCompile>
+    <ClCompile Include="D3dDdi\Hooks.cpp">
+      <Filter>Source Files\D3dDdi</Filter>
+    </ClCompile>
+    <ClCompile Include="Common\Hook.cpp">
+      <Filter>Source Files\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Common\Time.cpp">
+      <Filter>Source Files\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Common\Log.cpp">
+      <Filter>Source Files\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Win32\Registry.cpp">
+      <Filter>Source Files\Win32</Filter>
+    </ClCompile>
+    <ClCompile Include="DDraw\Surfaces\Surface.cpp">
+      <Filter>Source Files\DDraw\Surfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="DDraw\Surfaces\SurfaceImpl.cpp">
+      <Filter>Source Files\DDraw\Surfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="DDraw\Surfaces\PrimarySurface.cpp">
+      <Filter>Source Files\DDraw\Surfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="DDraw\Surfaces\PrimarySurfaceImpl.cpp">
+      <Filter>Source Files\DDraw\Surfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="Direct3d\Direct3dViewport.cpp">
+      <Filter>Source Files\Direct3d</Filter>
+    </ClCompile>
+    <ClCompile Include="Direct3d\Direct3dTexture.cpp">
+      <Filter>Source Files\Direct3d</Filter>
+    </ClCompile>
+    <ClCompile Include="Direct3d\Direct3dVertexBuffer.cpp">
+      <Filter>Source Files\Direct3d</Filter>
+    </ClCompile>
+    <ClCompile Include="D3dDdi\Log\DeviceFuncsLog.cpp">
+      <Filter>Source Files\D3dDdi\Log</Filter>
+    </ClCompile>
+    <ClCompile Include="D3dDdi\Log\DeviceCallbacksLog.cpp">
+      <Filter>Source Files\D3dDdi\Log</Filter>
+    </ClCompile>
+    <ClCompile Include="D3dDdi\Log\AdapterFuncsLog.cpp">
+      <Filter>Source Files\D3dDdi\Log</Filter>
+    </ClCompile>
+    <ClCompile Include="D3dDdi\KernelModeThunks.cpp">
+      <Filter>Source Files\D3dDdi</Filter>
+    </ClCompile>
+    <ClCompile Include="D3dDdi\Log\KernelModeThunksLog.cpp">
+      <Filter>Source Files\D3dDdi\Log</Filter>
+    </ClCompile>
+    <ClCompile Include="DDraw\DirectDrawClipper.cpp">
+      <Filter>Source Files\DDraw</Filter>
+    </ClCompile>
+    <ClCompile Include="Win32\DisplayMode.cpp">
+      <Filter>Source Files\Win32</Filter>
+    </ClCompile>
+    <ClCompile Include="DDraw\DirectDrawGammaControl.cpp">
+      <Filter>Source Files\DDraw</Filter>
+    </ClCompile>
+    <ClCompile Include="D3dDdi\Device.cpp">
+      <Filter>Source Files\D3dDdi</Filter>
+    </ClCompile>
+    <ClCompile Include="Gdi\Window.cpp">
+      <Filter>Source Files\Gdi</Filter>
+    </ClCompile>
+    <ClCompile Include="Gdi\Region.cpp">
+      <Filter>Source Files\Gdi</Filter>
+    </ClCompile>
+    <ClCompile Include="Gdi\VirtualScreen.cpp">
+      <Filter>Source Files\Gdi</Filter>
+    </ClCompile>
+    <ClCompile Include="Gdi\Palette.cpp">
+      <Filter>Source Files\Gdi</Filter>
+    </ClCompile>
+    <ClCompile Include="D3dDdi\ScopedCriticalSection.cpp">
+      <Filter>Source Files\D3dDdi</Filter>
+    </ClCompile>
+    <ClCompile Include="D3dDdi\Adapter.cpp">
+      <Filter>Source Files\D3dDdi</Filter>
+    </ClCompile>
+    <ClCompile Include="D3dDdi\Resource.cpp">
+      <Filter>Source Files\D3dDdi</Filter>
+    </ClCompile>
+    <ClCompile Include="DDraw\Blitter.cpp">
+      <Filter>Source Files\DDraw</Filter>
+    </ClCompile>
+    <ClCompile Include="D3dDdi\FormatInfo.cpp">
+      <Filter>Source Files\D3dDdi</Filter>
+    </ClCompile>
+    <ClCompile Include="Direct3d\Log.cpp">
+      <Filter>Source Files\Direct3d</Filter>
+    </ClCompile>
+    <ClCompile Include="Win32\Log.cpp">
+      <Filter>Source Files\Win32</Filter>
+    </ClCompile>
+    <ClCompile Include="DDraw\Log.cpp">
+      <Filter>Source Files\DDraw</Filter>
+    </ClCompile>
+    <ClCompile Include="Direct3d\Direct3dMaterial.cpp">
+      <Filter>Source Files\Direct3d</Filter>
+    </ClCompile>
+    <ClCompile Include="Direct3d\Direct3dLight.cpp">
+      <Filter>Source Files\Direct3d</Filter>
+    </ClCompile>
+    <ClCompile Include="Direct3d\Direct3dExecuteBuffer.cpp">
+      <Filter>Source Files\Direct3d</Filter>
+    </ClCompile>
+    <ClCompile Include="Gdi\Font.cpp">
+      <Filter>Source Files\Gdi</Filter>
+    </ClCompile>
+    <ClCompile Include="Dll\DllMain.cpp">
+      <Filter>Source Files\Dll</Filter>
+    </ClCompile>
+    <ClCompile Include="Dll\Dll.cpp">
+      <Filter>Source Files\Dll</Filter>
+    </ClCompile>
+    <ClCompile Include="D3dDdi\Log\CommonLog.cpp">
+      <Filter>Source Files\D3dDdi\Log</Filter>
+    </ClCompile>
+    <ClCompile Include="D3dDdi\DrawPrimitive.cpp">
+      <Filter>Source Files\D3dDdi</Filter>
+    </ClCompile>
+    <ClCompile Include="D3dDdi\DeviceState.cpp">
+      <Filter>Source Files\D3dDdi</Filter>
+    </ClCompile>
+    <ClCompile Include="Win32\MemoryManagement.cpp">
+      <Filter>Source Files\Win32</Filter>
+    </ClCompile>
+    <ClCompile Include="Gdi\User32WndProcs.cpp">
+      <Filter>Source Files\Gdi</Filter>
+    </ClCompile>
+    <ClCompile Include="Gdi\PresentationWindow.cpp">
+      <Filter>Source Files\Gdi</Filter>
+    </ClCompile>
+    <ClCompile Include="Gdi\CompatDc.cpp">
+      <Filter>Source Files\Gdi</Filter>
+    </ClCompile>
+    <ClCompile Include="Gdi\Icon.cpp">
+      <Filter>Source Files\Gdi</Filter>
+    </ClCompile>
+    <ClCompile Include="Common\Path.cpp">
+      <Filter>Source Files\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Config\Parser.cpp">
+      <Filter>Source Files\Config</Filter>
+    </ClCompile>
+    <ClCompile Include="Config\Config.cpp">
+      <Filter>Source Files\Config</Filter>
+    </ClCompile>
+    <ClCompile Include="Config\Setting.cpp">
+      <Filter>Source Files\Config</Filter>
+    </ClCompile>
+    <ClCompile Include="Config\EnumSetting.cpp">
+      <Filter>Source Files\Config</Filter>
+    </ClCompile>
+    <ClCompile Include="Config\ListSetting.cpp">
+      <Filter>Source Files\Config</Filter>
+    </ClCompile>
+    <ClCompile Include="Win32\Thread.cpp">
+      <Filter>Source Files\Win32</Filter>
+    </ClCompile>
+    <ClCompile Include="Config\Settings\CpuAffinity.cpp">
+      <Filter>Source Files\Config\Settings</Filter>
+    </ClCompile>
+    <ClCompile Include="D3dDdi\ShaderBlitter.cpp">
+      <Filter>Source Files\D3dDdi</Filter>
+    </ClCompile>
+    <ClCompile Include="Config\Settings\DisplayResolution.cpp">
+      <Filter>Source Files\Config\Settings</Filter>
+    </ClCompile>
+    <ClCompile Include="D3dDdi\SurfaceRepository.cpp">
+      <Filter>Source Files\D3dDdi</Filter>
+    </ClCompile>
+    <ClCompile Include="Gdi\Cursor.cpp">
+      <Filter>Source Files\Gdi</Filter>
+    </ClCompile>
+    <ClCompile Include="Config\Settings\SupportedResolutions.cpp">
+      <Filter>Source Files\Config\Settings</Filter>
+    </ClCompile>
+    <ClCompile Include="Config\Settings\DisplayFilter.cpp">
+      <Filter>Source Files\Config\Settings</Filter>
+    </ClCompile>
+    <ClCompile Include="Config\Settings\TextureFilter.cpp">
+      <Filter>Source Files\Config\Settings</Filter>
+    </ClCompile>
+    <ClCompile Include="Config\Settings\Antialiasing.cpp">
+      <Filter>Source Files\Config\Settings</Filter>
+    </ClCompile>
+    <ClCompile Include="Input\Input.cpp">
+      <Filter>Source Files\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Overlay\Window.cpp">
+      <Filter>Source Files\Overlay</Filter>
+    </ClCompile>
+    <ClCompile Include="Overlay\Control.cpp">
+      <Filter>Source Files\Overlay</Filter>
+    </ClCompile>
+    <ClCompile Include="Overlay\ConfigWindow.cpp">
+      <Filter>Source Files\Overlay</Filter>
+    </ClCompile>
+    <ClCompile Include="Overlay\SettingControl.cpp">
+      <Filter>Source Files\Overlay</Filter>
+    </ClCompile>
+    <ClCompile Include="Overlay\LabelControl.cpp">
+      <Filter>Source Files\Overlay</Filter>
+    </ClCompile>
+    <ClCompile Include="Overlay\ComboBoxControl.cpp">
+      <Filter>Source Files\Overlay</Filter>
+    </ClCompile>
+    <ClCompile Include="Overlay\ScrollBarControl.cpp">
+      <Filter>Source Files\Overlay</Filter>
+    </ClCompile>
+    <ClCompile Include="Overlay\ComboBoxDropDown.cpp">
+      <Filter>Source Files\Overlay</Filter>
+    </ClCompile>
+    <ClCompile Include="D3dDdi\Log\AdapterCallbacksLog.cpp">
+      <Filter>Source Files\D3dDdi\Log</Filter>
+    </ClCompile>
+    <ClCompile Include="Config\Settings\ResolutionScale.cpp">
+      <Filter>Source Files\Config\Settings</Filter>
+    </ClCompile>
+    <ClCompile Include="Common\Rect.cpp">
+      <Filter>Source Files\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Gdi\GuiThread.cpp">
+      <Filter>Source Files\Gdi</Filter>
+    </ClCompile>
+    <ClCompile Include="Config\Settings\DisplayRefreshRate.cpp">
+      <Filter>Source Files\Config\Settings</Filter>
+    </ClCompile>
+    <ClCompile Include="Input\HotKey.cpp">
+      <Filter>Source Files\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Config\Settings\SpriteTexCoord.cpp">
+      <Filter>Source Files\Config\Settings</Filter>
+    </ClCompile>
+    <ClCompile Include="Config\Settings\SpriteFilter.cpp">
+      <Filter>Source Files\Config\Settings</Filter>
+    </ClCompile>
+    <ClCompile Include="Config\Settings\SpriteDetection.cpp">
+      <Filter>Source Files\Config\Settings</Filter>
+    </ClCompile>
+    <ClCompile Include="Config\Settings\VSync.cpp">
+      <Filter>Source Files\Config\Settings</Filter>
+    </ClCompile>
+    <ClCompile Include="DDraw\Surfaces\TagSurface.cpp">
+      <Filter>Source Files\DDraw\Surfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="Config\Settings\WinVersionLie.cpp">
+      <Filter>Source Files\Config\Settings</Filter>
+    </ClCompile>
+    <ClCompile Include="Win32\Version.cpp">
+      <Filter>Source Files\Win32</Filter>
+    </ClCompile>
+    <ClCompile Include="Overlay\ButtonControl.cpp">
+      <Filter>Source Files\Overlay</Filter>
+    </ClCompile>
+    <ClCompile Include="Config\Settings\FpsLimiter.cpp">
+      <Filter>Source Files\Config\Settings</Filter>
+    </ClCompile>
+    <ClCompile Include="Win32\Winmm.cpp">
+      <Filter>Source Files\Win32</Filter>
+    </ClCompile>
+    <ClCompile Include="Overlay\StatsWindow.cpp">
+      <Filter>Source Files\Overlay</Filter>
+    </ClCompile>
+    <ClCompile Include="Overlay\StatsControl.cpp">
+      <Filter>Source Files\Overlay</Filter>
+    </ClCompile>
+    <ClCompile Include="Overlay\StatsQueue.cpp">
+      <Filter>Source Files\Overlay</Filter>
+    </ClCompile>
+    <ClCompile Include="Overlay\StatsTimer.cpp">
+      <Filter>Source Files\Overlay</Filter>
+    </ClCompile>
+    <ClCompile Include="Overlay\StatsEventRate.cpp">
+      <Filter>Source Files\Overlay</Filter>
+    </ClCompile>
+    <ClCompile Include="Overlay\StatsEventTime.cpp">
+      <Filter>Source Files\Overlay</Filter>
+    </ClCompile>
+    <ClCompile Include="Overlay\StatsEventCount.cpp">
+      <Filter>Source Files\Overlay</Filter>
+    </ClCompile>
+    <ClCompile Include="Overlay\StatsEventGroup.cpp">
+      <Filter>Source Files\Overlay</Filter>
+    </ClCompile>
+    <ClCompile Include="DDraw\LogUsedResourceFormat.cpp">
+      <Filter>Source Files\DDraw</Filter>
+    </ClCompile>
+    <ClCompile Include="Config\Settings\SupportedTextureFormats.cpp">
+      <Filter>Source Files\Config\Settings</Filter>
+    </ClCompile>
+    <ClCompile Include="Config\FormatListSetting.cpp">
+      <Filter>Source Files\Config</Filter>
+    </ClCompile>
+    <ClCompile Include="Config\Settings\SupportedDepthFormats.cpp">
+      <Filter>Source Files\Config\Settings</Filter>
+    </ClCompile>
+    <ClCompile Include="Config\Settings\DisplayAspectRatio.cpp">
+      <Filter>Source Files\Config\Settings</Filter>
+    </ClCompile>
+    <ClCompile Include="Config\Settings\DesktopResolution.cpp">
+      <Filter>Source Files\Config\Settings</Filter>
+    </ClCompile>
+    <ClCompile Include="D3dDdi\ShaderAssembler.cpp">
+      <Filter>Source Files\D3dDdi</Filter>
+    </ClCompile>
+    <ClCompile Include="Config\Settings\ColorKeyMethod.cpp">
+      <Filter>Source Files\Config\Settings</Filter>
+    </ClCompile>
+    <ClCompile Include="Config\EnumListSetting.cpp">
+      <Filter>Source Files\Config</Filter>
+    </ClCompile>
+    <ClCompile Include="Config\Settings\ConfigRows.cpp">
+      <Filter>Source Files\Config\Settings</Filter>
+    </ClCompile>
+    <ClCompile Include="Win32\DpiAwareness.cpp">
+      <Filter>Source Files\Win32</Filter>
+    </ClCompile>
+    <ClCompile Include="Overlay\Steam.cpp">
+      <Filter>Source Files\Overlay</Filter>
+    </ClCompile>
+    <ClCompile Include="Config\Settings\SurfacePatches.cpp">
+      <Filter>Source Files\Config\Settings</Filter>
+    </ClCompile>
+    <ClCompile Include="Common\Disasm.cpp">
+      <Filter>Source Files\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Config\Settings\CapsPatches.cpp">
+      <Filter>Source Files\Config\Settings</Filter>
+    </ClCompile>
+    <ClCompile Include="Config\Settings\SupportedRefreshRates.cpp">
+      <Filter>Source Files\Config\Settings</Filter>
+    </ClCompile>
+    <ClCompile Include="Config\Settings\CompatFixes.cpp">
+      <Filter>Source Files\Config\Settings</Filter>
+    </ClCompile>
+    <ClCompile Include="Config\Settings\SupportedDevices.cpp">
+      <Filter>Source Files\Config\Settings</Filter>
+    </ClCompile>
+    <ClCompile Include="D3dDdi\ShaderCompiler.cpp">
+      <Filter>Source Files\D3dDdi</Filter>
+    </ClCompile>
+    <ClCompile Include="D3dDdi\MetaShader.cpp">
+      <Filter>Source Files\D3dDdi</Filter>
+    </ClCompile>
+    <ClCompile Include="Overlay\ShaderStatusControl.cpp">
+      <Filter>Source Files\Overlay</Filter>
+    </ClCompile>
+    <ClCompile Include="Config\AtomicSetting.cpp">
+      <Filter>Source Files\Config</Filter>
+    </ClCompile>
+    <ClCompile Include="Overlay\ShaderSettingControl.cpp">
+      <Filter>Source Files\Overlay</Filter>
+    </ClCompile>
+    <ClCompile Include="Config\Settings\GdiInterops.cpp">
+      <Filter>Source Files\Config\Settings</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="DDrawCompat.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="genversion.ps1">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Shaders\Convolution.hlsli">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\CubicConvolution.hlsli">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\DepthReadPcf.hlsli">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\DepthRead.hlsli">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\DepthConvert.hlsli">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\DepthWrite.hlsli">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\DepthCopyPcf.hlsli">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\DepthLockRef.hlsli">
+      <Filter>Shaders</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Shaders\PaletteLookup.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Shaders\DrawCursor.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Shaders\TextureSampler.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Shaders\VertexFixup.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Shaders\LockRef.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Shaders\ColorKey.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Shaders\ColorKeyBlend.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Shaders\Lanczos.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Shaders\CubicConvolution2.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Shaders\CubicConvolution3.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Shaders\CubicConvolution4.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Shaders\Bilinear.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Shaders\Point.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Shaders\PointNoFilter.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Shaders\AlphaBlend.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Shaders\DepthReadPcf16.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Shaders\DepthReadPcf24.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Shaders\DepthRead16.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Shaders\DepthRead24.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Shaders\DepthWrite16.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Shaders\DepthWrite24.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Shaders\DepthCopy.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Shaders\DepthCopyPcf16.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Shaders\DepthCopyPcf24.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Shaders\DepthLockRef16.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Shaders\DepthLockRef24.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="arrow.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+</Project>

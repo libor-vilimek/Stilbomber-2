@@ -1,0 +1,1097 @@
+#include <algorithm>
+#include <cstdlib>
+
+#include <Common/Log.h>
+#include <Config/Settings/SpriteDetection.h>
+#include <Config/Settings/SpriteTexCoord.h>
+#include <D3dDdi/DrawPrimitive.h>
+#include <D3dDdi/Device.h>
+#include <D3dDdi/Resource.h>
+
+namespace
+{
+	enum VertexFixupFlags
+	{
+		VF_XY       = 1 << 0,
+		VF_Z        = 1 << 1,
+		VF_RHW      = 1 << 2,
+		VF_TEXCOORD = 1 << 3
+	};
+
+	UINT getVertexCount(D3DPRIMITIVETYPE primitiveType, UINT primitiveCount)
+	{
+		switch (primitiveType)
+		{
+		case D3DPT_POINTLIST:
+			return primitiveCount;
+		case D3DPT_LINELIST:
+			return primitiveCount * 2;
+		case D3DPT_LINESTRIP:
+			return primitiveCount + 1;
+		case D3DPT_TRIANGLELIST:
+			return primitiveCount * 3;
+		case D3DPT_TRIANGLESTRIP:
+		case D3DPT_TRIANGLEFAN:
+			return primitiveCount + 2;
+		}
+		return 0;
+	}
+
+	void updateMax(UINT& max, UINT value)
+	{
+		if (value > max)
+		{
+			max = value;
+		}
+	}
+
+	void updateMin(UINT& min, UINT value)
+	{
+		if (value < min)
+		{
+			min = value;
+		}
+	}
+}
+
+namespace D3dDdi
+{
+	DrawPrimitive::DrawPrimitive(Device& device)
+		: m_device(device)
+		, m_origVtable(device.getOrigVtable())
+		, m_streamSource{}
+		, m_batched{}
+		, m_vertexFixupFlags(0)
+	{
+	}
+
+	void DrawPrimitive::addSysMemVertexBuffer(HANDLE resource, BYTE* vertices)
+	{
+		m_sysMemVertexBuffers[resource] = vertices;
+	}
+
+	void DrawPrimitive::appendIndexedVertices(const UINT16* indices, UINT count,
+		INT baseVertexIndex, UINT minIndex, UINT maxIndex)
+	{
+		rebaseIndices();
+		appendIndexedVerticesWithoutRebase(indices, count, baseVertexIndex, minIndex, maxIndex);
+	}
+
+	void DrawPrimitive::appendIndexedVerticesWithoutRebase(const UINT16* indices, UINT count,
+		INT baseVertexIndex, UINT minIndex, UINT maxIndex)
+	{
+		const INT delta = getBatchedVertexCount() - minIndex;
+		for (UINT i = 0; i < count; ++i)
+		{
+			m_batched.indices.push_back(static_cast<UINT16>(indices[i] + delta));
+		}
+
+		const UINT vertexCount = maxIndex - minIndex + 1;
+		appendVertices(baseVertexIndex + minIndex, vertexCount);
+	}
+
+	void DrawPrimitive::appendIndexRange(UINT base, UINT count)
+	{
+		rebaseIndices();
+		appendIndexRangeWithoutRebase(base, count);
+	}
+
+	void DrawPrimitive::appendIndexRangeWithoutRebase(UINT base, UINT count)
+	{
+		for (UINT i = base; i < base + count; ++i)
+		{
+			m_batched.indices.push_back(static_cast<UINT16>(i));
+		}
+		updateMin(m_batched.minIndex, base);
+		updateMax(m_batched.maxIndex, base + count - 1);
+	}
+
+	void DrawPrimitive::appendIndices(const UINT16* indices, UINT count,
+		INT baseVertexIndex, UINT minIndex, UINT maxIndex)
+	{
+		rebaseIndices();
+		for (UINT i = 0; i < count; ++i)
+		{
+			m_batched.indices.push_back(static_cast<UINT16>(baseVertexIndex + indices[i]));
+		}
+		updateMin(m_batched.minIndex, baseVertexIndex + minIndex);
+		updateMax(m_batched.maxIndex, baseVertexIndex + maxIndex);
+	}
+
+	void DrawPrimitive::appendIndicesAndVertices(const UINT16* indices, UINT count,
+		INT baseVertexIndex, UINT minIndex, UINT maxIndex)
+	{
+		if (m_streamSource.vertices)
+		{
+			if (indices)
+			{
+				appendIndexedVertices(indices, count, baseVertexIndex, minIndex, maxIndex);
+			}
+			else
+			{
+				if (!m_batched.indices.empty())
+				{
+					appendIndexRange(getBatchedVertexCount(), count);
+				}
+				appendVertices(baseVertexIndex + minIndex, count);
+			}
+		}
+		else if (indices)
+		{
+			appendIndices(indices, count, baseVertexIndex, minIndex, maxIndex);
+		}
+		else
+		{
+			appendIndexRange(baseVertexIndex, count);
+		}
+	}
+
+	void DrawPrimitive::appendLineOrTriangleList(INT baseVertexIndex, UINT primitiveCount, UINT vpp,
+		const UINT16* indices, UINT minIndex, UINT maxIndex)
+	{
+		if (m_streamSource.vertices ||
+			indices ||
+			!m_batched.indices.empty() ||
+			m_batched.baseVertexIndex + static_cast<INT>(m_batched.primitiveCount * vpp) != baseVertexIndex)
+		{
+			appendIndicesAndVertices(indices, primitiveCount * vpp, baseVertexIndex, minIndex, maxIndex);
+		}
+	}
+
+	bool DrawPrimitive::appendPrimitives(D3DPRIMITIVETYPE primitiveType, INT baseVertexIndex, UINT primitiveCount,
+		const UINT16* indices, UINT minIndex, UINT maxIndex)
+	{
+		if ((m_batched.primitiveCount + primitiveCount) * 3 > D3DMAXNUMVERTICES)
+		{
+			return false;
+		}
+
+		switch (primitiveType)
+		{
+		case D3DPT_POINTLIST:
+			if (D3DPT_POINTLIST != m_batched.primitiveType ||
+				!m_streamSource.vertices &&
+				m_batched.baseVertexIndex + static_cast<INT>(m_batched.primitiveCount) != baseVertexIndex)
+			{
+				return false;
+			}
+			if (m_streamSource.vertices)
+			{
+				appendVertices(baseVertexIndex, primitiveCount);
+			}
+			break;
+
+		case D3DPT_LINESTRIP:
+			return false;
+
+		case D3DPT_LINELIST:
+			if (D3DPT_LINELIST != m_batched.primitiveType)
+			{
+				return false;
+			}
+			appendLineOrTriangleList(baseVertexIndex, primitiveCount, 2, indices, minIndex, maxIndex);
+			break;
+
+		case D3DPT_TRIANGLELIST:
+			if (m_batched.primitiveType < D3DPT_TRIANGLELIST)
+			{
+				return false;
+			}
+			convertToTriangleList();
+			appendLineOrTriangleList(baseVertexIndex, primitiveCount, 3, indices, minIndex, maxIndex);
+			break;
+
+		case D3DPT_TRIANGLESTRIP:
+			if (m_batched.primitiveType < D3DPT_TRIANGLELIST)
+			{
+				return false;
+			}
+			appendTriangleStrip(baseVertexIndex, primitiveCount, indices, minIndex, maxIndex);
+			break;
+
+		case D3DPT_TRIANGLEFAN:
+			if (m_batched.primitiveType < D3DPT_TRIANGLELIST)
+			{
+				return false;
+			}
+			appendTriangleFan(baseVertexIndex, primitiveCount, indices, minIndex, maxIndex);
+			break;
+		}
+
+		m_batched.primitiveCount += primitiveCount;
+		return true;
+	}
+
+	void DrawPrimitive::appendTriangleFan(INT baseVertexIndex, UINT primitiveCount,
+		const UINT16* indices, UINT minIndex, UINT maxIndex)
+	{
+		convertToTriangleList();
+		rebaseIndices();
+		appendIndicesAndVertices(indices, primitiveCount + 2, baseVertexIndex, minIndex, maxIndex);
+		convertIndexedTriangleFanToList(m_batched.primitiveCount, primitiveCount);
+	}
+
+	void DrawPrimitive::appendTriangleStrip(INT baseVertexIndex, UINT primitiveCount,
+		const UINT16* indices, UINT minIndex, UINT maxIndex)
+	{
+		if (D3DPT_TRIANGLESTRIP != m_batched.primitiveType)
+		{
+			convertToTriangleList();
+			rebaseIndices();
+			appendIndicesAndVertices(indices, primitiveCount + 2, baseVertexIndex, minIndex, maxIndex);
+			convertIndexedTriangleStripToList(m_batched.primitiveCount, primitiveCount);
+			return;
+		}
+
+		if (!m_streamSource.vertices || !m_batched.indices.empty())
+		{
+			rebaseIndices();
+		}
+
+		for (UINT i = 1 + m_batched.primitiveCount % 2; i != 0; --i)
+		{
+			repeatLastBatchedVertex();
+			m_batched.primitiveCount++;
+		}
+
+		if (m_batched.indices.empty())
+		{
+			appendVertices(baseVertexIndex, 1);
+		}
+		else
+		{
+			if (m_streamSource.vertices)
+			{
+				m_batched.indices.push_back(static_cast<UINT16>(getBatchedVertexCount()));
+			}
+			else if (indices)
+			{
+				m_batched.indices.push_back(static_cast<UINT16>(baseVertexIndex + indices[0]));
+			}
+			else
+			{
+				m_batched.indices.push_back(static_cast<UINT16>(baseVertexIndex));
+			}
+		}
+		m_batched.primitiveCount += 3;
+
+		appendIndicesAndVertices(indices, primitiveCount + 2, baseVertexIndex, minIndex, maxIndex);
+	}
+
+	void DrawPrimitive::appendVertices(UINT base, UINT count)
+	{
+		auto vertices = m_streamSource.vertices + base * m_streamSource.stride;
+		m_batched.vertices.insert(m_batched.vertices.end(), vertices, vertices + count * m_streamSource.stride);
+
+		if (Config::logLevel.get() >= Config::Settings::LogLevel::TRACE)
+		{
+			Compat::Log log(Config::Settings::LogLevel::TRACE);
+			switch (m_batched.primitiveType)
+			{
+			case D3DPT_POINTLIST:
+				log << "PL";
+				break;
+			case D3DPT_LINELIST:
+				log << "LL";
+				break;
+			case D3DPT_LINESTRIP:
+				log << "LS";
+				break;
+			case D3DPT_TRIANGLELIST:
+				log << "TL";
+				break;
+			case D3DPT_TRIANGLESTRIP:
+				log << "TS";
+				break;
+			case D3DPT_TRIANGLEFAN:
+				log << "TF";
+				break;
+			}
+			log << '[';
+
+			auto vPos = &m_batched.vertices[m_batched.vertices.size() - count * m_streamSource.stride];
+			for (unsigned i = 0; i < count; ++i)
+			{
+				auto v = reinterpret_cast<D3DTLVERTEX*>(vPos);
+				if (0 != i)
+				{
+					log << ',';
+				}
+				log << '{' << v->sx << ',' << v->sy << ',' << v->sz << ',' << v->rhw << '}';
+				vPos += m_streamSource.stride;
+			}
+
+			log << ']';
+		}
+
+		if (0 == m_vertexFixupFlags)
+		{
+			return;
+		}
+
+		auto& vertexFixupData = m_device.getState().getVertexFixupData();
+		auto firstVertex = &m_batched.vertices[m_batched.vertices.size() - count * m_streamSource.stride];
+
+		if (m_vertexFixupFlags & VF_XY)
+		{
+			auto vPos = firstVertex;
+			for (unsigned i = 0; i < count; ++i)
+			{
+				auto v = reinterpret_cast<D3DTLVERTEX*>(vPos);
+				v->sx += vertexFixupData.offset[0];
+				v->sy += vertexFixupData.offset[1];
+				v->sx *= vertexFixupData.multiplier[0];
+				v->sy *= vertexFixupData.multiplier[1];
+				vPos += m_streamSource.stride;
+			}
+		}
+
+		if (m_vertexFixupFlags & VF_Z)
+		{
+			auto zPos = reinterpret_cast<BYTE*>(&reinterpret_cast<D3DTLVERTEX*>(firstVertex)->sz);
+			for (unsigned i = 0; i < count; ++i)
+			{
+				auto& z = *reinterpret_cast<float*>(zPos);
+				if (isnan(z) || z < 0)
+				{
+					z = 0;
+				}
+				else if (z > 1)
+				{
+					z = 1;
+				}
+				zPos += m_streamSource.stride;
+			}
+		}
+
+		if (m_vertexFixupFlags & VF_RHW)
+		{
+			auto rhwPos = reinterpret_cast<BYTE*>(&reinterpret_cast<D3DTLVERTEX*>(firstVertex)->rhw);
+			for (unsigned i = 0; i < count; ++i)
+			{
+				auto& rhw = *reinterpret_cast<float*>(rhwPos);
+				if (isnan(rhw))
+				{
+					rhw = 1;
+				}
+				else
+				{
+					const float max_rhw = 1U << 31;
+					const float min_rhw = 1.0f / max_rhw;
+					rhw = std::min(std::max(rhw, min_rhw), max_rhw);
+				}
+				rhwPos += m_streamSource.stride;
+			}
+		}
+
+		if (m_vertexFixupFlags & VF_TEXCOORD)
+		{
+			auto tcPos = firstVertex + m_device.getState().getVertexDecl().texCoordOffset[0];
+			for (unsigned i = 0; i < count; ++i)
+			{
+				float* tc = reinterpret_cast<float*>(tcPos);
+				tc[0] *= vertexFixupData.texCoordAdj[0];
+				tc[1] *= vertexFixupData.texCoordAdj[1];
+				tc[0] += vertexFixupData.texCoordAdj[2];
+				tc[1] += vertexFixupData.texCoordAdj[3];
+				tc[0] = roundf(tc[0]);
+				tc[1] = roundf(tc[1]);
+				tc[0] /= vertexFixupData.texCoordAdj[0];
+				tc[1] /= vertexFixupData.texCoordAdj[1];
+				tcPos += m_streamSource.stride;
+			}
+		}
+	}
+
+	void DrawPrimitive::clearBatchedPrimitives()
+	{
+		m_batched.primitiveCount = 0;
+		m_batched.vertices.clear();
+		m_batched.indices.clear();
+	}
+
+	void DrawPrimitive::convertIndexedTriangleFanToList(UINT startPrimitive, UINT primitiveCount)
+	{
+		const UINT totalPrimitiveCount = startPrimitive + primitiveCount;
+		m_batched.indices.resize(totalPrimitiveCount * 3);
+
+		INT startIndexPos = startPrimitive * 3;
+		INT oldIndexPos = startIndexPos + primitiveCount - 1;
+		INT newIndexPos = (totalPrimitiveCount - 1) * 3;
+		const UINT16 startIndex = m_batched.indices[startIndexPos];
+
+		while (newIndexPos > startIndexPos)
+		{
+			m_batched.indices[newIndexPos + 2] = startIndex;
+			m_batched.indices[newIndexPos + 1] = m_batched.indices[oldIndexPos + 2];
+			m_batched.indices[newIndexPos] = m_batched.indices[oldIndexPos + 1];
+			newIndexPos -= 3;
+			oldIndexPos--;
+		}
+
+		m_batched.indices[newIndexPos] = m_batched.indices[oldIndexPos + 1];
+		m_batched.indices[newIndexPos + 1] = m_batched.indices[oldIndexPos + 2];
+		m_batched.indices[newIndexPos + 2] = startIndex;
+	}
+
+	void DrawPrimitive::convertIndexedTriangleStripToList(UINT startPrimitive, UINT primitiveCount)
+	{
+		const UINT totalPrimitiveCount = startPrimitive + primitiveCount;
+		m_batched.indices.resize(totalPrimitiveCount * 3);
+
+		INT oldIndexPos = startPrimitive * 3 + primitiveCount - 2;
+		INT newIndexPos = (totalPrimitiveCount - 2) * 3;
+
+		if (0 != primitiveCount % 2)
+		{
+			m_batched.indices[newIndexPos + 5] = m_batched.indices[oldIndexPos + 3];
+			m_batched.indices[newIndexPos + 4] = m_batched.indices[oldIndexPos + 2];
+			m_batched.indices[newIndexPos + 3] = m_batched.indices[oldIndexPos + 1];
+			newIndexPos -= 3;
+			oldIndexPos--;
+		}
+
+		while (newIndexPos >= oldIndexPos)
+		{
+			m_batched.indices[newIndexPos + 5] = m_batched.indices[oldIndexPos + 2];
+			m_batched.indices[newIndexPos + 4] = m_batched.indices[oldIndexPos + 3];
+			m_batched.indices[newIndexPos + 3] = m_batched.indices[oldIndexPos + 1];
+			m_batched.indices[newIndexPos + 2] = m_batched.indices[oldIndexPos + 2];
+			m_batched.indices[newIndexPos + 1] = m_batched.indices[oldIndexPos + 1];
+			m_batched.indices[newIndexPos] = m_batched.indices[oldIndexPos];
+			newIndexPos -= 6;
+			oldIndexPos -= 2;
+		}
+	}
+
+	void DrawPrimitive::convertToTriangleList()
+	{
+		const bool alreadyIndexed = !m_batched.indices.empty();
+
+		switch (m_batched.primitiveType)
+		{
+		case D3DPT_TRIANGLELIST:
+			return;
+
+		case D3DPT_TRIANGLESTRIP:
+			if (alreadyIndexed)
+			{
+				rebaseIndices();
+				convertIndexedTriangleStripToList(0, m_batched.primitiveCount);
+			}
+			else
+			{
+				const UINT baseVertexIndex = static_cast<UINT>(m_batched.baseVertexIndex);
+				UINT i = baseVertexIndex;
+				for (; i < baseVertexIndex + m_batched.primitiveCount - 1; i += 2)
+				{
+					m_batched.indices.push_back(static_cast<UINT16>(i));
+					m_batched.indices.push_back(static_cast<UINT16>(i + 1));
+					m_batched.indices.push_back(static_cast<UINT16>(i + 2));
+					m_batched.indices.push_back(static_cast<UINT16>(i + 1));
+					m_batched.indices.push_back(static_cast<UINT16>(i + 3));
+					m_batched.indices.push_back(static_cast<UINT16>(i + 2));
+				}
+				if (i < baseVertexIndex + m_batched.primitiveCount)
+				{
+					m_batched.indices.push_back(static_cast<UINT16>(i));
+					m_batched.indices.push_back(static_cast<UINT16>(i + 1));
+					m_batched.indices.push_back(static_cast<UINT16>(i + 2));
+				}
+			}
+			break;
+
+		case D3DPT_TRIANGLEFAN:
+			if (alreadyIndexed)
+			{
+				rebaseIndices();
+				convertIndexedTriangleFanToList(0, m_batched.primitiveCount);
+			}
+			else
+			{
+				for (UINT i = m_batched.baseVertexIndex; i < m_batched.baseVertexIndex + m_batched.primitiveCount; ++i)
+				{
+					m_batched.indices.push_back(static_cast<UINT16>(i + 1));
+					m_batched.indices.push_back(static_cast<UINT16>(i + 2));
+					m_batched.indices.push_back(static_cast<UINT16>(m_batched.baseVertexIndex));
+				}
+			}
+			break;
+		}
+
+		m_batched.primitiveType = D3DPT_TRIANGLELIST;
+		if (!alreadyIndexed)
+		{
+			m_batched.minIndex = m_batched.baseVertexIndex;
+			m_batched.maxIndex = m_batched.baseVertexIndex + m_batched.primitiveCount + 1;
+			m_batched.baseVertexIndex = 0;
+		}
+	}
+
+	HRESULT DrawPrimitive::draw(D3DDDIARG_DRAWPRIMITIVE data, const UINT* flagBuffer)
+	{
+		auto& state = m_device.getState();
+		m_device.prepareForGpuWrite();
+		state.updateStreamSource();
+
+		auto vertexCount = getVertexCount(data.PrimitiveType, data.PrimitiveCount);
+		setupDraw(data.PrimitiveType, data.VStart, vertexCount, nullptr);
+
+		if (0 == m_batched.primitiveCount || flagBuffer ||
+			!appendPrimitives(data.PrimitiveType, data.VStart, data.PrimitiveCount, nullptr, 0, 0))
+		{
+			flushPrimitives();
+
+			m_batched.primitiveType = data.PrimitiveType;
+			m_batched.primitiveCount = data.PrimitiveCount;
+			if (m_streamSource.vertices)
+			{
+				appendVertices(data.VStart, vertexCount);
+				m_batched.baseVertexIndex = 0;
+			}
+			else
+			{
+				m_batched.baseVertexIndex = data.VStart;
+				m_batched.minIndex = D3DMAXNUMVERTICES;
+				m_batched.maxIndex = 0;
+			}
+
+			if (flagBuffer)
+			{
+				flushPrimitives(flagBuffer);
+			}
+		}
+
+		return S_OK;
+	}
+
+	HRESULT DrawPrimitive::drawIndexed(
+		D3DDDIARG_DRAWINDEXEDPRIMITIVE2 data, const UINT16* indices, const UINT* flagBuffer)
+	{
+		auto& state = m_device.getState();
+		m_device.prepareForGpuWrite();
+		state.updateStreamSource();
+
+		auto indexCount = getVertexCount(data.PrimitiveType, data.PrimitiveCount);
+		auto vStart = data.BaseVertexOffset / static_cast<INT>(m_streamSource.stride);
+		setupDraw(data.PrimitiveType, vStart, indexCount, indices);
+
+		auto [min, max] = std::minmax_element(indices, indices + indexCount);
+		data.MinIndex = *min;
+		data.NumVertices = *max - *min + 1;
+
+		if (0 == m_batched.primitiveCount || flagBuffer ||
+			!appendPrimitives(data.PrimitiveType, vStart, data.PrimitiveCount, indices, *min, *max))
+		{
+			flushPrimitives();
+
+			m_batched.primitiveType = data.PrimitiveType;
+			m_batched.primitiveCount = data.PrimitiveCount;
+			m_batched.baseVertexIndex = vStart;
+			if (m_streamSource.vertices)
+			{
+				appendIndexedVerticesWithoutRebase(indices, indexCount, m_batched.baseVertexIndex, *min, *max);
+				m_batched.baseVertexIndex = 0;
+			}
+			else
+			{
+				m_batched.indices.assign(indices, indices + indexCount);
+				m_batched.minIndex = *min;
+				m_batched.maxIndex = *max;
+			}
+
+			if (flagBuffer)
+			{
+				flushPrimitives(flagBuffer);
+			}
+		}
+
+		return S_OK;
+	}
+
+	HRESULT DrawPrimitive::flush(const UINT* flagBuffer)
+	{
+		D3DDDIARG_DRAWPRIMITIVE data = {};
+		data.PrimitiveType = m_batched.primitiveType;
+		data.VStart = m_batched.baseVertexIndex;
+		data.PrimitiveCount = m_batched.primitiveCount;
+
+		if (m_streamSource.vertices)
+		{
+			loadVertices();
+			data.VStart = 0;
+		}
+
+		clearBatchedPrimitives();
+		return m_origVtable.pfnDrawPrimitive(m_device, &data, flagBuffer);
+	}
+
+	HRESULT DrawPrimitive::flushIndexed(const UINT* flagBuffer)
+	{
+		D3DDDIARG_DRAWINDEXEDPRIMITIVE2 data = {};
+		data.PrimitiveType = m_batched.primitiveType;
+		data.BaseVertexOffset = m_batched.baseVertexIndex * static_cast<INT>(m_streamSource.stride);
+		if (m_streamSource.vertices)
+		{
+			data.MinIndex = -m_batched.baseVertexIndex;
+			data.NumVertices = getBatchedVertexCount();
+			loadVertices();
+		}
+		else
+		{
+			data.MinIndex = m_batched.minIndex;
+			data.NumVertices = m_batched.maxIndex - m_batched.minIndex + 1;
+		}
+		data.PrimitiveCount = m_batched.primitiveCount;
+
+		HRESULT result = m_origVtable.pfnDrawIndexedPrimitive2(m_device, &data, 2, m_batched.indices.data(), flagBuffer);
+		clearBatchedPrimitives();
+		return result;
+	}
+
+	HRESULT DrawPrimitive::flushPrimitives(const UINT* flagBuffer)
+	{
+		if (0 == m_batched.primitiveCount)
+		{
+			return S_OK;
+		}
+
+		LOG_DEBUG << "Flushing " << m_batched.primitiveCount << " primitives of type " << m_batched.primitiveType;
+
+		if (m_batched.primitiveType < D3DPT_TRIANGLELIST &&
+			m_streamSource.vertices &&
+			m_device.getState().getVertexDecl().isTransformed &&
+			getBatchedVertexCount() * 4 <= D3DMAXNUMVERTICES)
+		{
+			if (D3DPT_POINTLIST != m_batched.primitiveType)
+			{
+				transformLines();
+			}
+			else if (m_batched.indices.empty())
+			{
+				transformPointList();
+			}
+		}
+
+		return m_batched.indices.empty() ? flush(flagBuffer) : flushIndexed(flagBuffer);
+	}
+
+	UINT DrawPrimitive::getBatchedVertexCount() const
+	{
+		return m_batched.vertices.size() / m_streamSource.stride;
+	}
+
+	bool DrawPrimitive::isSprite(INT baseVertexIndex, UINT count, const UINT16* indices)
+	{
+		auto spriteDetection = Config::spriteDetection.get();
+		if (Config::Settings::SpriteDetection::OFF == spriteDetection ||
+			Config::Settings::SpriteDetection::POINT == spriteDetection && (
+				D3DTEXF_POINT != m_device.getState().getAppState().textureStageState[0][D3DDDITSS_MAGFILTER] ||
+				D3DTEXF_POINT != m_device.getState().getAppState().textureStageState[0][D3DDDITSS_MINFILTER]))
+		{
+			return false;
+		}
+
+		auto v = m_streamSource.vertices + baseVertexIndex * m_streamSource.stride;
+		auto v0 = reinterpret_cast<const D3DTLVERTEX*>(v + (indices ? indices[0] * m_streamSource.stride : 0));
+		if (Config::Settings::SpriteDetection::ZMAX == spriteDetection &&
+			v0->sz > static_cast<float>(Config::spriteDetection.getParam()) / 100)
+		{
+			return false;
+		}
+
+		if (indices)
+		{
+			for (UINT i = 1; i < count; ++i)
+			{
+				if (reinterpret_cast<const D3DTLVERTEX*>(v + indices[i] * m_streamSource.stride)->sz != v0->sz)
+				{
+					return false;
+				}
+			}
+		}
+		else
+		{
+			for (UINT i = 1; i < count; ++i)
+			{
+				v += m_streamSource.stride;
+				if (reinterpret_cast<const D3DTLVERTEX*>(v)->sz != v0->sz)
+				{
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+
+	void DrawPrimitive::loadVertices()
+	{
+		D3DDDIARG_SETSTREAMSOURCEUM ss = {};
+		ss.Stride = m_streamSource.stride;
+		m_origVtable.pfnSetStreamSourceUm(m_device, &ss, m_batched.vertices.data());
+	}
+
+	void DrawPrimitive::rebaseIndices()
+	{
+		if (0 != m_batched.baseVertexIndex || m_batched.indices.empty())
+		{
+			if (m_batched.indices.empty())
+			{
+				auto vertexCount = getVertexCount(m_batched.primitiveType, m_batched.primitiveCount);
+				appendIndexRangeWithoutRebase(m_batched.baseVertexIndex, vertexCount);
+			}
+			else
+			{
+				for (auto& index : m_batched.indices)
+				{
+					index = static_cast<UINT16>(m_batched.baseVertexIndex + index);
+				}
+				m_batched.minIndex += m_batched.baseVertexIndex;
+				m_batched.maxIndex += m_batched.baseVertexIndex;
+			}
+			m_batched.baseVertexIndex = 0;
+		}
+	}
+
+	void DrawPrimitive::repeatLastBatchedVertex()
+	{
+		if (m_batched.indices.empty())
+		{
+			m_batched.vertices.reserve(m_batched.vertices.size() + m_streamSource.stride);
+			m_batched.vertices.insert(m_batched.vertices.end(),
+				m_batched.vertices.end() - m_streamSource.stride, m_batched.vertices.end());
+		}
+		else
+		{
+			m_batched.indices.push_back(m_batched.indices.back());
+		}
+	}
+
+	void DrawPrimitive::removeSysMemVertexBuffer(HANDLE resource)
+	{
+		m_sysMemVertexBuffers.erase(resource);
+	}
+
+	void DrawPrimitive::resetStreamSource()
+	{
+		if (0 != m_streamSource.stride)
+		{
+			flushPrimitives();
+			m_streamSource = {};
+		}
+	}
+
+	HRESULT DrawPrimitive::setStreamSource(const D3DDDIARG_SETSTREAMSOURCE& data)
+	{
+		auto it = m_sysMemVertexBuffers.find(data.hVertexBuffer);
+		if (it != m_sysMemVertexBuffers.end())
+		{
+			return setSysMemStreamSource(it->second, data.Stride);
+		}
+
+		flushPrimitives();
+		HRESULT result = m_origVtable.pfnSetStreamSource(m_device, &data);
+		if (SUCCEEDED(result))
+		{
+			m_streamSource = { nullptr, data.Stride };
+		}
+		return result;
+	}
+
+	HRESULT DrawPrimitive::setStreamSourceUm(const D3DDDIARG_SETSTREAMSOURCEUM& data, const void* umBuffer)
+	{
+		return setSysMemStreamSource(static_cast<const BYTE*>(umBuffer), data.Stride);
+	}
+
+	HRESULT DrawPrimitive::setSysMemStreamSource(const BYTE* vertices, UINT stride)
+	{
+		HRESULT result = S_OK;
+		if (!m_streamSource.vertices || stride != m_streamSource.stride)
+		{
+			flushPrimitives();
+		}
+
+		if (SUCCEEDED(result))
+		{
+			m_streamSource = { vertices, stride };
+		}
+		return result;
+	}
+
+	void DrawPrimitive::setTextureClampMode(INT baseVertexIndex, const UINT16* indices, UINT count)
+	{
+		if (Config::Settings::SpriteTexCoord::CLAMP != Config::spriteTexCoord.get())
+		{
+			return;
+		}
+
+		auto& state = m_device.getState();
+		auto& appState = state.getAppState();
+		auto& decl = state.getVertexDecl();
+		auto textureStageCount = state.getTextureStageCount();
+		auto vertices = m_streamSource.vertices + baseVertexIndex * m_streamSource.stride;
+
+		for (UINT stage = 0; stage < textureStageCount; ++stage)
+		{
+			const UINT D3DDECLTYPE_FLOAT2 = 1;
+			if (!appState.textures[stage] ||
+				D3DDECLTYPE_FLOAT2 != decl.texCoordType[stage] ||
+				D3DTADDRESS_CLAMP == appState.textureStageState[stage][D3DDDITSS_ADDRESSU] &&
+				D3DTADDRESS_CLAMP == appState.textureStageState[stage][D3DDDITSS_ADDRESSV])
+			{
+				continue;
+			}
+			
+			auto resource = state.getTextureResource(stage);
+			if (!resource || !resource->isClampable())
+			{
+				continue;
+			}
+
+			const float texelWidth = 1 / static_cast<float>(resource->getFixedDesc().pSurfList[0].Width);
+			const float texelHeight = 1 / static_cast<float>(resource->getFixedDesc().pSurfList[0].Height);
+			const float minU = -texelWidth;
+			const float maxU = 1 + texelWidth;
+			const float minV = -texelHeight;
+			const float maxV = 1 + texelHeight;
+
+			for (UINT i = 0; i < count; ++i)
+			{
+				auto vertex = vertices + (indices ? indices[i] : i) * m_streamSource.stride;
+				const float* texCoord = reinterpret_cast<const float*>(vertex + decl.texCoordOffset[stage]);
+				if (texCoord[0] < minU || texCoord[0] > maxU || texCoord[1] < minV || texCoord[1] > maxV)
+				{
+					state.disableTextureClamp(stage);
+					break;
+				}
+			}
+		}
+	}
+
+	void DrawPrimitive::setVertexFixupFlags(INT baseVertexIndex, UINT16 index)
+	{
+		auto& state = m_device.getState();
+		if (!state.getVertexDecl().isTransformed ||
+			state.getCurrentState().vertexShaderFunc != state.getAppState().vertexShaderFunc)
+		{
+			return;
+		}
+
+		auto& vertexFixupData = state.getVertexFixupData();
+		if (0 != vertexFixupData.offset[0] ||
+			0 != vertexFixupData.offset[1] ||
+			1 != vertexFixupData.multiplier[0] ||
+			1 != vertexFixupData.multiplier[1])
+		{
+			m_vertexFixupFlags |= VF_XY;
+		}
+
+		if (0 == state.getTextureStageCount())
+		{
+			m_vertexFixupFlags |= VF_Z | VF_RHW;
+		}
+		else
+		{
+			auto vertex = reinterpret_cast<const D3DTLVERTEX*>(
+				m_streamSource.vertices + (baseVertexIndex + index) * m_streamSource.stride);
+			if (vertex->sz > 1 || vertex->sz < 0 || isnan(vertex->sz))
+			{
+				m_vertexFixupFlags |= VF_Z;
+			}
+		}
+
+		const UINT D3DDECLTYPE_FLOAT2 = 1;
+		if (state.getSpriteMode() &&
+			Config::Settings::SpriteTexCoord::ROUND == Config::spriteTexCoord.get() &&
+			0 != Config::spriteTexCoord.getParam() &&
+			D3DDECLTYPE_FLOAT2 == state.getVertexDecl().texCoordType[0])
+		{
+			m_vertexFixupFlags |= VF_TEXCOORD;
+		}
+	}
+
+	void DrawPrimitive::setupDraw(D3DPRIMITIVETYPE primitiveType, INT baseVertexIndex, UINT count, const UINT16* indices)
+	{
+		m_vertexFixupFlags = 0;
+		auto& state = m_device.getState();
+
+		auto spriteMode = DeviceState::NON_SPRITE;
+		if (m_streamSource.vertices)
+		{
+			if (primitiveType < D3DPT_TRIANGLELIST)
+			{
+				spriteMode = DeviceState::POINT_OR_LINE;
+				state.setTempRenderState({ D3DDDIRS_FILLMODE, D3DFILL_SOLID });
+				if (D3DCULL_CW == state.getCurrentState().renderState[D3DDDIRS_CULLMODE])
+				{
+					state.setTempRenderState({ D3DDDIRS_CULLMODE, D3DCULL_CCW });
+				}
+			}
+			else if (isSprite(baseVertexIndex, count, indices))
+			{
+				spriteMode = DeviceState::SPRITE;
+				setTextureClampMode(baseVertexIndex, indices, count);
+			}
+		}
+
+		state.setSpriteMode(spriteMode);
+		state.flush();
+		setVertexFixupFlags(baseVertexIndex, indices ? indices[0] : 0);
+	}
+
+	void DrawPrimitive::transformLines()
+	{
+		const auto targetPrimitiveCount = D3DPT_LINELIST == m_batched.primitiveType
+			? (m_batched.primitiveCount * 4)
+			: (m_batched.primitiveCount * 3 + 1);
+		if (targetPrimitiveCount > D3DMAXNUMPRIMITIVES)
+		{
+			return;
+		}
+
+		const auto size = m_batched.vertices.size();
+		const auto vertexCount = getBatchedVertexCount();
+		const int indexCount = m_batched.indices.empty() ? vertexCount : m_batched.indices.size();
+		m_batched.indices.reserve(indexCount + targetPrimitiveCount * 3);
+		if (m_batched.indices.empty())
+		{
+			m_batched.baseVertexIndex = 0;
+			m_batched.minIndex = 0;
+			m_batched.maxIndex = vertexCount - 1;
+			m_batched.indices.reserve(vertexCount);
+			for (UINT16 i = 0; i < vertexCount; ++i)
+			{
+				m_batched.indices.push_back(i);
+			}
+		}
+		rebaseIndices();
+
+		m_batched.vertices.reserve(4 * size);
+		std::copy_n(m_batched.vertices.begin(), size, std::back_inserter(m_batched.vertices));
+		std::copy_n(m_batched.vertices.begin(), 2 * size, std::back_inserter(m_batched.vertices));
+
+		const auto& vertexFixupData = m_device.getState().getVertexFixupData();
+		const float halfPsX = (vertexFixupData.isGpu ? 1.0f : vertexFixupData.multiplier[0]) / 2;
+		const float halfPsY = (vertexFixupData.isGpu ? 1.0f : vertexFixupData.multiplier[1]) / 2;
+
+		auto v = m_batched.vertices.data();
+		for (std::size_t i = 0; i < vertexCount; ++i)
+		{
+			reinterpret_cast<D3DTLVERTEX*>(v)->sy -= halfPsY;
+			v += m_streamSource.stride;
+		}
+		for (std::size_t i = 0; i < vertexCount; ++i)
+		{
+			reinterpret_cast<D3DTLVERTEX*>(v)->sx += halfPsX;
+			v += m_streamSource.stride;
+		}
+		for (std::size_t i = 0; i < vertexCount; ++i)
+		{
+			reinterpret_cast<D3DTLVERTEX*>(v)->sy += halfPsY;
+			v += m_streamSource.stride;
+		}
+		for (std::size_t i = 0; i < vertexCount; ++i)
+		{
+			reinterpret_cast<D3DTLVERTEX*>(v)->sx -= halfPsX;
+			v += m_streamSource.stride;
+		}
+
+		UINT16 lineStartIndex = 0;
+		for (unsigned i = 0; i < m_batched.primitiveCount; ++i)
+		{
+			const int i1 = m_batched.indices[lineStartIndex];
+			const int i2 = m_batched.indices[lineStartIndex + 1];
+			const auto& v1 = reinterpret_cast<D3DTLVERTEX&>(m_batched.vertices[i1 * m_streamSource.stride]);
+			const auto& v2 = reinterpret_cast<D3DTLVERTEX&>(m_batched.vertices[i2 * m_streamSource.stride]);
+
+			const auto xDiff = v2.sx - v1.sx;
+			const auto yDiff = v2.sy - v1.sy;
+			const int base1 = std::abs(xDiff) > std::abs(yDiff)
+				? (v1.sx < v2.sx ? 3 : 1)
+				: (v1.sy < v2.sy ? 4 : 2);
+			const int base2 = base1 + 2;
+
+			if (D3DPT_LINELIST == m_batched.primitiveType || 0 == lineStartIndex)
+			{
+				m_batched.indices.push_back(static_cast<UINT16>(((base1 - 1) & 3) * vertexCount + i1));
+				m_batched.indices.push_back(static_cast<UINT16>(((base1 + 0) & 3) * vertexCount + i1));
+				m_batched.indices.push_back(static_cast<UINT16>(((base1 + 1) & 3) * vertexCount + i1));
+			}
+
+			m_batched.indices.push_back(static_cast<UINT16>(((base1 - 1) & 3) * vertexCount + i1));
+			m_batched.indices.push_back(static_cast<UINT16>(((base1 + 1) & 3) * vertexCount + i1));
+			m_batched.indices.push_back(static_cast<UINT16>(((base2 - 1) & 3) * vertexCount + i2));
+
+			m_batched.indices.push_back(static_cast<UINT16>(((base2 - 1) & 3) * vertexCount + i2));
+			m_batched.indices.push_back(static_cast<UINT16>(((base2 + 1) & 3) * vertexCount + i2));
+			m_batched.indices.push_back(static_cast<UINT16>(((base1 - 1) & 3) * vertexCount + i1));
+
+			m_batched.indices.push_back(static_cast<UINT16>(((base2 - 1) & 3) * vertexCount + i2));
+			m_batched.indices.push_back(static_cast<UINT16>(((base2 + 0) & 3) * vertexCount + i2));
+			m_batched.indices.push_back(static_cast<UINT16>(((base2 + 1) & 3) * vertexCount + i2));
+
+			lineStartIndex += D3DPT_LINELIST == m_batched.primitiveType ? 2 : 1;
+		}
+
+		m_batched.indices.erase(m_batched.indices.begin(), m_batched.indices.begin() + indexCount);
+
+		m_batched.primitiveType = D3DPT_TRIANGLELIST;
+		m_batched.primitiveCount = targetPrimitiveCount;
+		m_batched.baseVertexIndex = 0;
+		m_batched.minIndex = 0;
+		m_batched.maxIndex = 4 * vertexCount - 1;
+	}
+
+	void DrawPrimitive::transformPointList()
+	{
+		const auto size = m_batched.vertices.size();
+		const auto vertexCount = getBatchedVertexCount();
+		m_batched.vertices.reserve(4 * size);
+
+		const auto& vertexFixupData = m_device.getState().getVertexFixupData();
+		const float psX = vertexFixupData.isGpu ? 1.0f : vertexFixupData.multiplier[0];
+		const float psY = vertexFixupData.isGpu ? 1.0f : vertexFixupData.multiplier[1];
+
+		auto v = m_batched.vertices.data();
+		for (std::size_t i = 0; i < vertexCount; ++i)
+		{
+			reinterpret_cast<D3DTLVERTEX*>(v)->sx -= psX / 2;
+			reinterpret_cast<D3DTLVERTEX*>(v)->sy -= psY / 2;
+			v += m_streamSource.stride;
+		}
+
+		std::copy_n(m_batched.vertices.begin(), size, std::back_inserter(m_batched.vertices));
+
+		for (std::size_t i = 0; i < vertexCount; ++i)
+		{
+			reinterpret_cast<D3DTLVERTEX*>(v)->sx += psX;
+			v += m_streamSource.stride;
+		}
+
+		std::copy_n(m_batched.vertices.begin(), 2 * size, std::back_inserter(m_batched.vertices));
+
+		for (std::size_t i = 0; i < 2 * vertexCount; ++i)
+		{
+			reinterpret_cast<D3DTLVERTEX*>(v)->sy += psY;
+			v += m_streamSource.stride;
+		}
+
+		m_batched.indices.reserve(6 * vertexCount);
+		for (unsigned i = 0; i < vertexCount; ++i)
+		{
+			m_batched.indices.push_back(static_cast<UINT16>(i));
+			m_batched.indices.push_back(static_cast<UINT16>(vertexCount + i));
+			m_batched.indices.push_back(static_cast<UINT16>(2 * vertexCount + i));
+
+			m_batched.indices.push_back(static_cast<UINT16>(vertexCount + i));
+			m_batched.indices.push_back(static_cast<UINT16>(3 * vertexCount + i));
+			m_batched.indices.push_back(static_cast<UINT16>(2 * vertexCount + i));
+		}
+
+		m_batched.primitiveType = D3DPT_TRIANGLELIST;
+		m_batched.primitiveCount *= 2;
+		m_batched.baseVertexIndex = 0;
+		m_batched.minIndex = 0;
+		m_batched.maxIndex = 4 * vertexCount - 1;
+	}
+}
