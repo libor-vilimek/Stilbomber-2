@@ -44,6 +44,19 @@ You can also launch it from PowerShell:
 .\Play-Stilbomber-Windowed.cmd
 ```
 
+### Beginner tips
+As this is old, freeware game, there are few things good to know so you dont get stuck at beginning
+
+* Hunter (default) ship to play is balanced. Some other ships might be hard to manage as beginner.
+* Before first game open Hangar, on right bottom select "shield, armor and bomb damage" generators and sell others. On top left buy as many weapon damage as you have money for.
+* First few missions might be much harder then rest of the game. Dont get disapointed. The death means nothing - the point is about grinding a bit. Even if you die, you get all the money you earned in the mission. So improve your ship and try again.
+* Some fields are refreshed again about each two turns - its fine. We are grinding here, this is what we want. Some of them might be replenished with super-high mission which you cannot beat or even earn decent money (buy detector soon to see the mission levels).
+* Dont rush to the "big" missions (first is level 10 with big circle). If you try and you cannot beat the boss (it has health regen), its sign you should just grind a bit more.
+* The game effectively manages only one map. Also after you start the game next time, you have to first go to hangar, load the ship, then go back and click on big "Load game" button which loads map.
+  * If you want to play more games with more ships, just copy the whole folder and do it there.
+
+### Tech Info
+
 The repository may include a `.cache` folder containing the required compatibility-wrapper archive. It is kept there so the project can work more self-contained and does not need to download the wrapper immediately. You can delete `.cache` at any time; the launcher will automatically download and recreate it when the wrapper is needed. If the cache is not present, an internet connection is required the first time the game is prepared.
 
 The game opens in a borderless window at desktop size. Press `Ctrl+Tab` to release the mouse. Windowed-mode progress is stored separately in `game-windowed\save`.
